@@ -270,4 +270,4 @@ MIT — see [LICENSE](LICENSE)
 
 ---
 
-**linai** — Your terminal AI companion. 🤖
+**Pico** — Your terminal AI companion. 🤖
