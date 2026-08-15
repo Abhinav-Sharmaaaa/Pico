@@ -1,4 +1,4 @@
-# linai — Cross-Platform AI Terminal Assistant
+# Pico(i have a vision with ts)
 
 A lightweight, cross-platform AI assistant for your terminal with TUI, workflows, web search, and file operations. Works on Linux, macOS, and Windows.
 
@@ -24,8 +24,8 @@ A lightweight, cross-platform AI assistant for your terminal with TUI, workflows
 pip install linai
 
 # From source
-git clone https://github.com/Abhinav-Sharmaaaa/LinAI.git
-cd LinAI
+git clone https://github.com/Abhinav-Sharmaaaa/Pico.git
+cd Pico
 pip install -e .
 ```
 
