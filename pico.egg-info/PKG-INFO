@@ -1,3 +1,33 @@
+Metadata-Version: 2.4
+Name: pico
+Version: 0.2.0
+Summary: Lightweight cross-platform AI terminal assistant with TUI, workflows, and web search
+Author-email: Abhinav Sharma <abhinav@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/Abhinav-Sharmaaaa/LinAI
+Project-URL: Repository, https://github.com/Abhinav-Sharmaaaa/LinAI
+Project-URL: Issues, https://github.com/Abhinav-Sharmaaaa/LinAI/issues
+Keywords: ai,terminal,tui,assistant,openrouter,workflow
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21; extra == "dev"
+Requires-Dist: black>=23.0; extra == "dev"
+Requires-Dist: ruff>=0.1; extra == "dev"
+Dynamic: license-file
+
 # Pico(i have a vision with ts)
 
 A lightweight, cross-platform AI assistant for your terminal with TUI, workflows, web search, and file operations. Works on Linux, macOS, and Windows.
@@ -9,7 +39,7 @@ A lightweight, cross-platform AI assistant for your terminal with TUI, workflows
 ## Features
 
 - **TUI Mode** — Interactive terminal UI with markdown rendering, syntax highlighting, scrollback, and animations
-- **One-Shot Mode** — Pipe questions or run from scripts: `echo "question" | pico`
+- **One-Shot Mode** — Pipe questions or run from scripts: `echo "question" | linai`
 - **Workflow System** — Create and execute multi-step plans (saved as JSON)
 - **Web Search** — Built-in DuckDuckGo search (no API key needed), with per-result title/URL/snippet parsing and a lite-endpoint fallback
 - **File Operations** — Read, write, edit, and search files anywhere on disk — any absolute path on any drive (`C:\`, `D:\`, `/mnt/...`), not just your home directory
@@ -21,7 +51,7 @@ A lightweight, cross-platform AI assistant for your terminal with TUI, workflows
 
 ```bash
 # From PyPI (when published)
-pip install pico
+pip install linai
 
 # From source
 git clone https://github.com/Abhinav-Sharmaaaa/Pico.git
@@ -38,25 +68,25 @@ pip install -e .
 export OPENROUTER_API_KEY="sk-or-v1-..."
 
 # Run TUI (interactive) — launches automatically when stdin is a real terminal and no args are given
-pico
+linai
 
 # Force TUI explicitly (e.g. from a wrapper script)
-pico --tui
+linai --tui
 
 # One-shot mode
-pico "what is the latest Python version?"
+linai "what is the latest Python version?"
 
 # Pipe input
-echo "explain asyncio" | pico
+echo "explain asyncio" | linai
 
 # System status
-pico --status
+linai --status
 
 # Help
-pico --help
+linai --help
 
 # Web UI for configuration and logs
-pico-web
+linai-web
 ```
 
 ### NVIDIA NIM API
@@ -72,17 +102,17 @@ export NVIDIA_NIM_API_URL="https://your-nim-endpoint/v1"
 # Optional: model override
 export LINAI_NVIDIA_NIM_MODEL="nvidia/nemotron-3-ultra"
 
-pico
+linai
 ```
 
 ## Web UI
 
 ```bash
 # Start web UI for configuration and logs
-pico-web
+linai-web
 
 # Custom port
-pico-web 8080
+linai-web 8080
 ```
 
 The web UI runs at `http://127.0.0.1:8765` and provides:
@@ -97,7 +127,7 @@ The web UI runs at `http://127.0.0.1:8765` and provides:
 
 ### TUI Hotkeys
 
-> **Note:** only `pico` (bare, in a real terminal) or `pico --tui` actually launch the TUI. A `pico tui` subcommand isn't currently implemented in `cli.py` despite being mentioned in `--help`'s usage text — that's a known doc/behavior mismatch, not something you're doing wrong.
+> **Note:** only `linai` (bare, in a real terminal) or `linai --tui` actually launch the TUI. A `linai tui` subcommand isn't currently implemented in `cli.py` despite being mentioned in `--help`'s usage text — that's a known doc/behavior mismatch, not something you're doing wrong.
 
 | Key | Action |
 |-----|--------|
@@ -144,26 +174,26 @@ The AI can create and execute multi-step workflows:
 
 ```bash
 # Quick questions
-pico "how to create a virtualenv in Python?"
-pico "what's new in Python 3.13?"
+linai "how to create a virtualenv in Python?"
+linai "what's new in Python 3.13?"
 
 # File operations
-pico "read my ~/.bashrc and suggest improvements"
-pico "create a Python script that fetches Bitcoin price"
-pico "search for pokemon files in D drive"
+linai "read my ~/.bashrc and suggest improvements"
+linai "create a Python script that fetches Bitcoin price"
+linai "search for pokemon files in D drive"
 
 # System tasks
-pico "check disk space and clean caches"
-pico "run: git status && git diff --stat"
+linai "check disk space and clean caches"
+linai "run: git status && git diff --stat"
 
 # Web search
-pico "latest Rust release notes"
-pico "compare React vs Vue 2024"
+linai "latest Rust release notes"
+linai "compare React vs Vue 2024"
 ```
 
 ## Configuration
 
-Config file: `~/.config/pico/config.json`
+Config file: `~/.config/linai/config.json`
 
 ```json
 {
@@ -197,7 +227,7 @@ Environment variables are used as a **fallback** for any field left empty in `co
 
 ### Switching Providers
 
-The easiest way is the web UI toggle (`pico-web`) — it writes straight to `config.json` and applies on your very next message.
+The easiest way is the web UI toggle (`linai-web`) — it writes straight to `config.json` and applies on your very next message.
 
 You can also switch via environment variables, but note these are only used as a fallback for whatever `config.json` doesn't already specify:
 
@@ -214,7 +244,7 @@ export NVIDIA_API_KEY="nvapi-..."
 ## Architecture
 
 ```
-pico/
+linai/
 ├── agent.py      # API calls (streaming + non-streaming, dual provider)
 ├── cli.py        # CLI entry point, one-shot + TUI routing
 ├── config.py     # Config, constants, API key management
