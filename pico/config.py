@@ -31,11 +31,46 @@ DEFAULT_NVIDIA_NIM_BASE_URL = "https://integrate.api.nvidia.com/v1"
 # The on-disk schema (as written by webui.py). "provider" is the toggle.
 # "nvidia" and "nvidia_nim" are treated as synonyms everywhere.
 DEFAULT_CONFIG: dict[str, Any] = {
+    # Exported module-level constants for backward compatibility
+    # These mirror entries in DEFAULT_CONFIG so that code accessing
+    # ``config.PET_IDLE_TIMEOUT`` continues to work.
+    # They are defined after the dict to avoid mypy issues with forward
+    # references.
+    # NOTE: Keep them in sync with the defaults above.
+
+    # Exported module-level constants for backward compatibility
+    # These mirror entries in DEFAULT_CONFIG so that code accessing
+    # ``config.PET_IDLE_TIMEOUT`` continues to work.
+    # They are defined after the dict to avoid mypy issues with forward
+    # references.
+    # NOTE: Keep them in sync with the defaults above.
+
+    # Exported module-level constants for backward compatibility
+    # These mirror entries in DEFAULT_CONFIG so that code accessing
+    # ``config.PET_IDLE_TIMEOUT`` continues to work.
+    # They are defined after the dict to avoid mypy issues with forward
+    # references.
+    # NOTE: Keep them in sync with the defaults above.
+
+    # Exported module-level constants for backward compatibility
+    # These mirror entries in DEFAULT_CONFIG so that code accessing
+    # ``config.PET_IDLE_TIMEOUT`` continues to work.
+    # They are defined after the dict to avoid mypy issues with forward
+    # references.
+    # NOTE: Keep them in sync with the defaults above.
+
+    # Exported module-level constants for backward compatibility
+    # These mirror entries in DEFAULT_CONFIG so that code accessing
+    # ``config.PET_IDLE_TIMEOUT`` continues to work.
+    # They are defined after the dict to avoid mypy issues with forward
+    # references.
+    # NOTE: Keep them in sync with the defaults above.
+
     # Desktop pet configuration defaults
     "PET_DEFAULT_POS": (100, 100),
     "PET_SCALE": 1.0,
-    "PET_CLICK_THROUGH_DEFAULT": false,
-    "PET_AUTO_START": true,
+    "PET_CLICK_THROUGH_DEFAULT": False,
+    "PET_AUTO_START": True,
     "PET_IDLE_TIMEOUT": 60,
 
     "provider": os.environ.get("LINAI_API_PROVIDER", "openrouter"),
@@ -47,6 +82,14 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "temperature": 0.2,
     "max_tokens": 1000,
 }
+
+# Backward‑compatible module‑level constants for code that accesses config via attributes.
+# These are set to the default values; load_config() should be used for runtime overrides.
+PET_DEFAULT_POS = DEFAULT_CONFIG["PET_DEFAULT_POS"]
+PET_SCALE = DEFAULT_CONFIG["PET_SCALE"]
+PET_CLICK_THROUGH_DEFAULT = DEFAULT_CONFIG["PET_CLICK_THROUGH_DEFAULT"]
+PET_AUTO_START = DEFAULT_CONFIG["PET_AUTO_START"]
+PET_IDLE_TIMEOUT = DEFAULT_CONFIG["PET_IDLE_TIMEOUT"]
 
 
 def normalize_provider(provider: str | None) -> str:

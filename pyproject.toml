@@ -40,7 +40,6 @@ dev = [
 pico = "pico.cli:main"
 # Desktop pet executable entry
 pico-pet = "pico.desktop.pet_cli:main"
-pico = "pico.cli:main"
 pico-web = "pico.webui:main"
 
 [project.urls]

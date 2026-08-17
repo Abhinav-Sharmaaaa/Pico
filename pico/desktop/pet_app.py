@@ -30,16 +30,21 @@ config = load_config()
 def _load_frames(prefix: str, count: int) -> List[QtGui.QPixmap]:
     """Load QPixmap frames from the *sprites* directory.
 
-    ``prefix`` should be the base filename without the index, e.g. ``"Pico_idle_frame"``.
-    The function looks for PNG files in the sibling ``sprites`` folder next to this
-    module. This avoids the need for a compiled ``.qrc`` resource at runtime.
+    ``prefix`` can be either a resource‑style path like ``":/sprites/Pico_idle_frame"``
+    or a simple base filename such as ``"Pico_idle_frame"``. The function strips any
+    leading ``":/sprites/"`` before constructing the filesystem path, allowing the
+    caller to use either form without causing an invalid filename.
     """
+    # Normalise the prefix to a plain base filename.
+    if prefix.startswith(":/sprites/"):
+        prefix = prefix[len(":/sprites/") :]
     base_dir = Path(__file__).parent / "sprites"
     frames: List[QtGui.QPixmap] = []
     for i in range(1, count + 1):
         path = base_dir / f"{prefix}{i}.png"
         pix = QtGui.QPixmap(str(path))
         if not pix.isNull():
+            # Apply user‑defined scaling factor.
             scale = config.get("PET_SCALE", 1.0)
             if scale != 1.0:
                 size = pix.size()
@@ -50,29 +55,12 @@ def _load_frames(prefix: str, count: int) -> List[QtGui.QPixmap]:
                     QtCore.Qt.SmoothTransformation,
                 )
             frames.append(pix)
-    return frames
-    """Load a list of QPixmap objects.
-
-    ``prefix`` is the resource path without the frame number and extension,
-    e.g. ``":/sprites/Pico_idle_frame"``. ``count`` is how many sequential
-    frames exist.
-    """
-    frames: List[QtGui.QPixmap] = []
-    for i in range(1, count + 1):
-        path = f"{prefix}{i}.png"
-        pix = QtGui.QPixmap(path)
-        if not pix.isNull():
-            # Apply user scaling factor
-            scale = config.get("PET_SCALE", 1.0)
-            if scale != 1.0:
-                size = pix.size()
-                pix = pix.scaled(
-                    int(size.width() * scale),
-                    int(size.height() * scale),
-                    QtCore.Qt.KeepAspectRatio,
-                    QtCore.Qt.SmoothTransformation,
-                )
-            frames.append(pix)
+    # If no frames were loaded (e.g., missing files), provide a 1×1 transparent pixmap
+    # to avoid IndexError when the caller accesses ``frames[0]``.
+    if not frames:
+        placeholder = QtGui.QPixmap(1, 1)
+        placeholder.fill(QtCore.Qt.transparent)
+        frames.append(placeholder)
     return frames
 
 
@@ -105,8 +93,8 @@ class PetWindow(QtWidgets.QWidget):
         )
 
         # Load animation frames
-        self.idle_frames = _load_frames(":/sprites/Pico_idle_frame", 6)
-        self.sleep_frames = _load_frames(":/sprites/Pico_sleep_frame", 6)
+        self.idle_frames = _load_frames("Pico_idle_frame", 6) or [QtGui.QPixmap(1,1)]
+        self.sleep_frames = _load_frames("Pico_sleep_frame", 6)
         self.current_frames = self.idle_frames
         self.frame_index = 0
 
@@ -212,6 +200,8 @@ class PetTrayIcon(QtWidgets.QSystemTrayIcon):
 
     def set_window(self, win: PetWindow) -> None:
         self.window = win
+        # Refresh the tray menu to reflect the new window state
+        self.update_menu()
 
     def _on_activated(self, reason: QtWidgets.QSystemTrayIcon.ActivationReason) -> None:  # pragma: no cover
         if reason == QtWidgets.QSystemTrayIcon.Trigger:
