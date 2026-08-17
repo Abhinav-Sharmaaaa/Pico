@@ -21,6 +21,8 @@ except ImportError:  # pragma: no cover
 from pico import config as cfg
 from pico.config import load_config
 
+config = load_config()
+
 # ---------------------------------------------------------------------------
 # Helper to load sprite frames from the compiled Qt resource file.
 # ---------------------------------------------------------------------------
@@ -38,7 +40,7 @@ def _load_frames(prefix: str, count: int) -> List[QtGui.QPixmap]:
         path = base_dir / f"{prefix}{i}.png"
         pix = QtGui.QPixmap(str(path))
         if not pix.isNull():
-            scale = cfg.PET_SCALE
+            scale = config.get("PET_SCALE", 1.0)
             if scale != 1.0:
                 size = pix.size()
                 pix = pix.scaled(
@@ -61,7 +63,7 @@ def _load_frames(prefix: str, count: int) -> List[QtGui.QPixmap]:
         pix = QtGui.QPixmap(path)
         if not pix.isNull():
             # Apply user scaling factor
-            scale = cfg.PET_SCALE
+            scale = config.get("PET_SCALE", 1.0)
             if scale != 1.0:
                 size = pix.size()
                 pix = pix.scaled(
