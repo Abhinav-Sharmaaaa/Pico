@@ -26,6 +26,8 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
+# GUI dependencies for the desktop pet
+gui = ["PyQt5>=5.15.2", "PySide6>=6.5.0"]
 dev = [
     "pytest>=7.0",
     "pytest-asyncio>=0.21",
@@ -34,6 +36,10 @@ dev = [
 ]
 
 [project.scripts]
+# Main CLI entry
+pico = "pico.cli:main"
+# Desktop pet executable entry
+pico-pet = "pico.desktop.pet_cli:main"
 pico = "pico.cli:main"
 pico-web = "pico.webui:main"
 

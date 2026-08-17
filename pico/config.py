@@ -31,6 +31,13 @@ DEFAULT_NVIDIA_NIM_BASE_URL = "https://integrate.api.nvidia.com/v1"
 # The on-disk schema (as written by webui.py). "provider" is the toggle.
 # "nvidia" and "nvidia_nim" are treated as synonyms everywhere.
 DEFAULT_CONFIG: dict[str, Any] = {
+    # Desktop pet configuration defaults
+    "PET_DEFAULT_POS": (100, 100),
+    "PET_SCALE": 1.0,
+    "PET_CLICK_THROUGH_DEFAULT": false,
+    "PET_AUTO_START": true,
+    "PET_IDLE_TIMEOUT": 60,
+
     "provider": os.environ.get("LINAI_API_PROVIDER", "openrouter"),
     "openrouter_key": "",
     "nvidia_key": "",

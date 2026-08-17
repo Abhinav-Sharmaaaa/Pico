@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/sprites">
+        <file>pico/desktop/sprites/Pico_idle_frame1.png</file>
+        <file>pico/desktop/sprites/Pico_idle_frame2.png</file>
+        <file>pico/desktop/sprites/Pico_idle_frame3.png</file>
+        <file>pico/desktop/sprites/Pico_idle_frame4.png</file>
+        <file>pico/desktop/sprites/Pico_idle_frame5.png</file>
+        <file>pico/desktop/sprites/Pico_idle_frame6.png</file>
+        <file>pico/desktop/sprites/Pico_sleep_frame1.png</file>
+        <file>pico/desktop/sprites/Pico_sleep_frame2.png</file>
+        <file>pico/desktop/sprites/Pico_sleep_frame3.png</file>
+        <file>pico/desktop/sprites/Pico_sleep_frame4.png</file>
+        <file>pico/desktop/sprites/Pico_sleep_frame5.png</file>
+        <file>pico/desktop/sprites/Pico_sleep_frame6.png</file>
+    </qresource>
+</RCC>

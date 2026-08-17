@@ -261,6 +261,12 @@ def main() -> None:
         return
 
     # Route: args or pipe → one-shot; tty → TUI
+    if args and args[0] == "pet":
+        # Desktop pet subcommand
+        from pico.desktop import pet_cli
+        pet_cli.main()
+        return
+
     if not sys.stdin.isatty() or args:
         question = " ".join(args) if args else sys.stdin.read().strip()
         if not question:

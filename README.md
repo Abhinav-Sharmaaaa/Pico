@@ -1,6 +1,6 @@
-# Pico(i have a vision with ts)
+# Pico (I have a vision with ts)
 
-A lightweight, cross-platform AI assistant for your terminal with TUI, workflows, web search, and file operations. Works on Linux, macOS, and Windows.
+A lightweight, cross‑platform AI assistant for your terminal with TUI, workflows, web search, and file operations. Works on Linux, macOS, and Windows.
 
 ![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![Python](https://img.shields.io/badge/python-3.10%2B-green)
@@ -9,13 +9,69 @@ A lightweight, cross-platform AI assistant for your terminal with TUI, workflows
 ## Features
 
 - **TUI Mode** — Interactive terminal UI with markdown rendering, syntax highlighting, scrollback, and animations
-- **One-Shot Mode** — Pipe questions or run from scripts: `echo "question" | pico`
-- **Workflow System** — Create and execute multi-step plans (saved as JSON)
-- **Web Search** — Built-in DuckDuckGo search (no API key needed), with per-result title/URL/snippet parsing and a lite-endpoint fallback
-- **File Operations** — Read, write, edit, and search files anywhere on disk — any absolute path on any drive (`C:\`, `D:\`, `/mnt/...`), not just your home directory
+- **One‑Shot Mode** — Pipe questions or run from scripts: `echo "question" | pico`
+- **Workflow System** — Create and execute multi‑step plans (saved as JSON)
+- **Web Search** — Built‑in DuckDuckGo search (no API key needed), with per‑result title/URL/snippet parsing and a lite‑endpoint fallback
+- **File Operations** — Read, write, edit, and search files anywhere on disk (`C:\`, `D:\`, `/mnt/...`)
 - **Shell Commands** — Run commands safely with sandboxing
-- **Cross-Platform** — Works on Linux, macOS, and Windows
+- **Cross‑Platform** — Works on Linux, macOS, and Windows
 - **Dual API Support** — OpenRouter **and** NVIDIA NIM API, switchable live from the web UI (no restart needed)
+
+## Desktop Pet (Windows)
+
+A new optional feature adds a whimsical "desktop pet" that lives on your Windows desktop.
+
+### Installation
+
+```bash
+# Install Pico with the optional GUI dependencies
+pip install "pico[gui]"
+```
+
+### Usage
+
+```bash
+# Run the pet (adds a system‑tray icon for control)
+ pico pet
+# Or use the console script installed by the optional dependency
+ pico-pet
+```
+
+The pet animates using the PNG sprites found in `pico/desktop/sprites/`.
+
+#### Controls
+- **Drag** — Click and drag the pet to reposition it.
+- **Double‑click** — Toggles between idle and sleep animation.
+- **System tray menu** — Show/Hide, toggle *click‑through* (allow mouse events to pass to windows beneath), and Quit.
+
+#### Configuration (edit `~/.config/pico/config.json` or modify defaults in `pico/config.py`)
+- `PET_DEFAULT_POS` — Starting screen coordinates, e.g. `[200, 100]`.
+- `PET_SCALE` — Sprite scaling factor (default `1.0`).
+- `PET_CLICK_THROUGH_DEFAULT` — Start with click‑through enabled (`true`/`false`).
+- `PET_AUTO_START` — Create a shortcut in the Windows Startup folder so the pet launches on login (`true`/`false`).
+- `PET_IDLE_TIMEOUT` — Seconds of inactivity before automatically switching to the sleep animation.
+
+### Building a Windows executable
+
+A PyInstaller spec (`pico/desktop/pyinstaller_pet.spec`) is provided to bundle the pet into a single‑file `pico-pet.exe` that includes the required Qt libraries and sprite resources.
+
+```bash
+pip install pyinstaller
+pyinstaller pico/desktop/pyinstaller_pet.spec
+```
+
+The generated executable can be distributed without requiring a Python interpreter on the target machine.
+
+### Testing
+
+Run the unit tests with:
+
+```bash
+pytest -m pet
+```
+The tests use `pytest-qt` to verify the window flags, animation timers, and tray‑menu behavior.
+
+---
 
 ## Installation
 
@@ -43,7 +99,7 @@ pico
 # Force TUI explicitly (e.g. from a wrapper script)
 pico --tui
 
-# One-shot mode
+# One‑shot mode
 pico "what is the latest Python version?"
 
 # Pipe input
@@ -87,10 +143,10 @@ pico-web 8080
 
 The web UI runs at `http://127.0.0.1:8765` and provides:
 - **Configuration Panel** — Set API keys, choose provider (OpenRouter/NVIDIA NIM) via a toggle, select models. Switching providers here takes effect immediately — no restart needed.
-- **Logs Viewer** — Real-time log streaming with filtering
+- **Logs Viewer** — Real‑time log streaming with filtering
 - **Workflow Manager** — Create, list, execute workflows visually
 - **System Dashboard** — Disk, memory, CPU, uptime
-- **API Connection Tester** — Tests against whatever's currently in the form (not just the last-saved config)
+- **API Connection Tester** — Tests against whatever's currently in the form (not just the last‑saved config)
 - **Model Browser** — Browse available models with pricing
 
 ## Usage
@@ -105,7 +161,7 @@ The web UI runs at `http://127.0.0.1:8765` and provides:
 | `Ctrl+C` | Cancel streaming |
 | `Ctrl+D` / `Esc` | Quit |
 | `Ctrl+L` | Clear screen |
-| `Ctrl+M` | Model picker (sorted by price) |
+| `Ctrl+M` | Model picker |
 | `Ctrl+H` | Help overlay |
 | `Ctrl+Y` | Copy output to clipboard |
 | `↑/↓` | Input history |
@@ -120,13 +176,13 @@ Type these at the prompt:
 | `/model` | `/m` | Model picker |
 | `/status` | `/s` | System snapshot |
 | `/context` | `/c` | Token budget |
-| `/clear` | | Reset conversation |
-| `/help` | | Help screen |
+| `/clear` |  | Reset conversation |
+| `/help` |  | Help screen |
 | `/workflows` | `/w` | List saved workflows |
 
 ### Workflow Tools (available to the model)
 
-The AI can create and execute multi-step workflows:
+The AI can create and execute multi‑step workflows:
 
 ```json
 // create_workflow
@@ -135,12 +191,12 @@ The AI can create and execute multi-step workflows:
   "description": "Find latest Python version and save summary",
   "steps": [
     {"name": "search", "tool": "web_search", "args": {"query": "latest Python version 2024"}, "description": "Search for latest version"},
-    {"name": "write", "tool": "write_file", "args": {"path": "python_version.md", "content": "# Python Version\n\n...", "diff": "Created summary"}, "description": "Write markdown file"}
+    {"name": "write", "tool": "write_file", "args": {"path": "python_version.md", "content": "# Python Version\n\n..."}, "description": "Write markdown file"}
   ]
 }
 ```
 
-### One-Shot Examples
+### One‑Shot Examples
 
 ```bash
 # Quick questions
@@ -195,9 +251,9 @@ Environment variables are used as a **fallback** for any field left empty in `co
 | `NVIDIA_NIM_API_URL` / `NVIDIA_API_URL` | Custom NIM endpoint |
 | `NO_COLOR` | Disable colors |
 
-### Switching Providers
+## Switching Providers
 
-The easiest way is the web UI toggle (`pico-web`) — it writes straight to `config.json` and applies on your very next message.
+The easiest way is the web UI toggle (`pico‑web`) — it writes straight to `config.json` and applies on your very next message.
 
 You can also switch via environment variables, but note these are only used as a fallback for whatever `config.json` doesn't already specify:
 
@@ -215,8 +271,8 @@ export NVIDIA_API_KEY="nvapi-..."
 
 ```
 pico/
-├── agent.py      # API calls (streaming + non-streaming, dual provider)
-├── cli.py        # CLI entry point, one-shot + TUI routing
+├── agent.py      # API calls (streaming + non‑streaming, dual provider)
+├── cli.py        # CLI entry point, one‑shot + TUI routing
 ├── config.py     # Config, constants, API key management
 ├── tools.py      # Tool definitions + implementations
 ├── utils.py      # Colors, wrapping, system status, model cache
@@ -250,9 +306,9 @@ See [NVIDIA NGC Catalog](https://build.nvidia.com) for full list.
 
 ## Windows Support
 
-- Uses `Path.home()` for cross-platform paths
+- Uses `Path.home()` for cross‑platform paths
 - File tools accept any absolute path, including bare drive letters (`D:`, `D:\`) which are normalized to that drive's root
-- Windows-specific system status (disk, memory, uptime via WMI/PowerShell)
+- Windows‑specific system status (disk, memory, uptime via WMI/PowerShell)
 - Windows cache locations in `clean_cache`
 - Color support via ANSI (Windows 10+)
 - TUI works in Windows Terminal, ConEmu, etc.
