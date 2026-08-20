@@ -33,8 +33,6 @@ pip install "pico[gui]"
 ```bash
 # Run the pet (adds a system‑tray icon for control)
  pico pet
-# Or use the console script installed by the optional dependency
- pico-pet
 ```
 
 The pet animates using the PNG sprites found in `pico/desktop/sprites/`.
